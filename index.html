@@ -4,209 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment Booking</title>
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h1, h2, h3 {
-            color: #333;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        
-        h3 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        #booking-form, #backend-view {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #fff;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        select {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        form div {
-            margin-bottom: 15px;
-        }
-
-        button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        #booking-details-form button[type="submit"] {
-            background-color: #28a745;
-        }
-
-        #booking-details-form button[type="submit"]:hover {
-            background-color: #218838;
-        }
-        
-        #switch-to-backend-view, #switch-to-booking-view {
-            background-color: #17a2b8;
-            margin-top: 10px;
-        }
-        #switch-to-backend-view:hover, #switch-to-booking-view:hover {
-            background-color: #138496;
-        }
-
-
-        #booking-confirmation {
-            padding: 10px;
-            margin-top: 15px;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .message-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .message-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        #booked-appointments-list ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        #booked-appointments-list li {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        #booked-appointments-list li strong {
-            display: inline-block;
-            width: 80px; /* Adjust as needed */
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            .container {
-                padding: 15px;
-            }
-            input[type="text"],
-            input[type="email"],
-            input[type="tel"],
-            input[type="date"],
-            select {
-                width: calc(100% - 20px); /* Adjust for smaller padding */
-            }
-            h1 {
-                font-size: 24px;
-            }
-            h2 {
-                font-size: 20px;
-            }
-        }
+        /* Styles moved to css/style.css */
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Appointment Booking</h1>
-
-    <div id="booking-form">
-        <h2>Book an Appointment</h2>
-
-        <section id="service-selection">
-            <h3>Service Selection</h3>
-            <label for="service">Choose a service:</label>
-            <select id="service" name="service">
-                <option value="hairdresser">Hairdresser</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="massage">Massage</option>
-            </select>
-        </section>
-
-        <section id="date-time-selection">
-            <h3>Date and Time Selection</h3>
-            <label for="date">Select a date:</label>
-            <input type="date" id="date" name="date">
-
-            <label for="time">Choose a time slot:</label>
-            <select id="time" name="time">
-                <!-- Time slots will be populated by JavaScript -->
-            </select>
-        </section>
-
-        <section id="user-details">
-            <h3>User Details</h3>
-            <form id="booking-details-form">
+    <div class="main-wrapper">
+        <header>
+            <h1>Appointment Booking</h1>
+        </header>
+        <main>
+            <section id="booking-system">
+                <h2>Book Your Appointment</h2>
+            <div id="time-slots-container">
+                <h3>Available Time Slots</h3>
+                <ul>
+                    <!-- Time slots will be populated by JavaScript -->
+                </ul>
+            </div>
+            <form id="booking-form">
                 <div>
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
@@ -216,178 +33,22 @@
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div>
-                    <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <label for="time-slot-select">Choose a time slot:</label>
+                    <select id="time-slot-select" name="time-slot-select">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
                 </div>
-                <button type="submit">Book Appointment</button>
+                <button type="submit">Book Now</button>
             </form>
-        </section>
-
-        <div id="booking-confirmation">
-            <!-- Booking confirmation messages will be displayed here -->
-        </div>
-    </div>
-
-    <div id="backend-view" style="display:none;">
-        <h2>Booked Appointments</h2>
-        <div id="booked-appointments-list">
-            <!-- Booked appointments will be listed here -->
-        </div>
-        <button id="switch-to-booking-view">Back to Booking Form</button>
-    </div>
-
-    <button id="switch-to-backend-view">View Booked Appointments</button>
-
+            <div id="message-container" aria-live="polite"></div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Appointment Booking</p>
+        </footer>
+    </div> <!-- Close main-wrapper -->
     <!-- Basic JavaScript for view switching might be added later -->
     <!-- <script src="app.js"></script> -->
-    <script>
-        const sampleTimeSlots = {
-            hairdresser: ["09:00 AM", "10:00 AM", "11:00 AM", "01:00 PM", "02:00 PM", "03:00 PM"],
-            restaurant: ["06:00 PM", "07:00 PM", "08:00 PM", "09:00 PM"],
-            massage: ["10:00 AM", "11:30 AM", "01:30 PM", "03:00 PM", "04:30 PM"]
-        };
-
-        const serviceSelect = document.getElementById('service');
-        const timeSelect = document.getElementById('time');
-        const bookingForm = document.getElementById('booking-form');
-        const backendView = document.getElementById('backend-view');
-        const switchToBackendButton = document.getElementById('switch-to-backend-view');
-        const switchToBookingButton = document.getElementById('switch-to-booking-view');
-        const bookingDetailsForm = document.getElementById('booking-details-form');
-        const bookingConfirmationDiv = document.getElementById('booking-confirmation');
-        const bookedAppointmentsListDiv = document.getElementById('booked-appointments-list');
-        // Add references for form input fields
-        const dateInput = document.getElementById('date');
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const phoneInput = document.getElementById('phone');
-
-
-        function populateTimeSlots(selectedService) {
-            timeSelect.innerHTML = ''; // Clear existing options
-            const slots = sampleTimeSlots[selectedService] || [];
-            slots.forEach(slot => {
-                const option = document.createElement('option');
-                option.value = slot;
-                option.textContent = slot;
-                timeSelect.appendChild(option);
-            });
-        }
-
-        function handleBookingFormSubmit(event) {
-            event.preventDefault();
-
-            const selectedService = serviceSelect.value;
-            const selectedDate = dateInput.value;
-            const selectedTime = timeSelect.value;
-            const userName = nameInput.value.trim();
-            const userEmail = emailInput.value.trim();
-            const userPhone = phoneInput.value.trim();
-
-            bookingConfirmationDiv.textContent = ''; // Clear previous messages
-            bookingConfirmationDiv.className = ''; // Clear previous classes
-
-            if (!selectedService || !selectedDate || !selectedTime || !userName || !userEmail || !userPhone) {
-                bookingConfirmationDiv.textContent = 'All fields are required. Please fill out the entire form.';
-                bookingConfirmationDiv.className = 'message-error';
-                return;
-            }
-
-            const booking = {
-                service: selectedService,
-                date: selectedDate,
-                time: selectedTime,
-                name: userName,
-                email: userEmail,
-                phone: userPhone,
-                id: Date.now() // Simple unique ID
-            };
-
-            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-            bookings.push(booking);
-            localStorage.setItem('bookings', JSON.stringify(bookings));
-
-            bookingConfirmationDiv.textContent = 'Booking successful! A confirmation email has been simulated.';
-            bookingConfirmationDiv.className = 'message-success';
-            
-            // Clear form fields
-            // serviceSelect.value = serviceSelect.options[0].value; // Reset to first service
-            // populateTimeSlots(serviceSelect.value); // Repopulate time for the reset service
-            dateInput.value = '';
-            // timeSelect.value = ''; // Time will repopulate based on service
-            nameInput.value = '';
-            emailInput.value = '';
-            phoneInput.value = '';
-            // Optionally, reset service and time to default and repopulate time slots
-            if (serviceSelect.options.length > 0) {
-                serviceSelect.selectedIndex = 0; // Reset to the first service
-                populateTimeSlots(serviceSelect.value); // Repopulate time slots
-            } else {
-                 timeSelect.innerHTML = ''; // Clear time slots if no services
-            }
-
-
-        }
-
-        function displayBookings() {
-            bookedAppointmentsListDiv.innerHTML = ''; // Clear existing bookings
-            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-
-            if (bookings.length === 0) {
-                bookedAppointmentsListDiv.innerHTML = '<p>No bookings found.</p>';
-                return;
-            }
-
-            const ul = document.createElement('ul');
-            ul.style.listStyleType = 'none';
-            ul.style.padding = '0';
-
-            bookings.forEach(booking => {
-                const li = document.createElement('li');
-                // li.style.border = '1px solid #ccc'; // Styling moved to CSS
-                // li.style.padding = '10px'; // Styling moved to CSS
-                // li.style.marginBottom = '10px'; // Styling moved to CSS
-                li.innerHTML = `
-                    <strong>Service:</strong> ${booking.service}<br>
-                    <strong>Date:</strong> ${booking.date}<br>
-                    <strong>Time:</strong> ${booking.time}<br>
-                    <strong>Name:</strong> ${booking.name}<br>
-                    <strong>Email:</strong> ${booking.email}<br>
-                    <strong>Phone:</strong> ${booking.phone}
-                `;
-                ul.appendChild(li);
-            });
-            bookedAppointmentsListDiv.appendChild(ul);
-        }
-
-        // Event Listeners
-        serviceSelect.addEventListener('change', (event) => {
-            populateTimeSlots(event.target.value);
-        });
-
-        switchToBackendButton.addEventListener('click', () => {
-            bookingForm.style.display = 'none';
-            backendView.style.display = 'block';
-            displayBookings(); // Call function to load/display bookings
-        });
-
-        switchToBookingButton.addEventListener('click', () => {
-            backendView.style.display = 'none';
-            bookingForm.style.display = 'block';
-        });
-
-        if (bookingDetailsForm) {
-            bookingDetailsForm.addEventListener('submit', handleBookingFormSubmit);
-        }
-
-        // Initial Setup
-        document.addEventListener('DOMContentLoaded', () => {
-            if (serviceSelect.value) {
-                populateTimeSlots(serviceSelect.value);
-            }
-            // Ensure backend view is hidden initially (though already set by inline style)
-            backendView.style.display = 'none';
-        });
-    </script>
+    <script src="js/script.js" defer></script>
 </body>
 </html>

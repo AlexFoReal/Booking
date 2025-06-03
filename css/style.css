@@ -1,0 +1,265 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f0f2f5; /* Lighter grey for a more modern feel */
+  color: #333;
+  line-height: 1.6;
+  padding: 0; /* Remove body padding, handle with main wrapper */
+}
+
+/* Main content wrapper for centering and max-width */
+.main-wrapper {
+  max-width: 1000px; /* Increased max-width slightly */
+  margin: 0 auto; /* Centering */
+  padding: 20px; /* Padding for content inside wrapper */
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px; /* Increased spacing */
+  padding-top: 20px; /* Spacing from top */
+}
+
+header h1 {
+  color: #2c3e50; /* Darker, more professional blue */
+  margin: 0;
+  font-size: 2.5em; /* Larger base size */
+  font-weight: 600; /* Slightly bolder */
+}
+
+main {
+  /* max-width and margin are now on .main-wrapper */
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px; /* Increased spacing */
+  padding: 20px; /* More padding */
+  border-top: 1px solid #e0e0e0; /* Lighter border */
+  font-size: 0.9em;
+  color: #555; /* Slightly darker for better readability */
+}
+
+/* Booking system section */
+#booking-system {
+  padding: 25px; /* Increased padding */
+  margin-bottom: 40px; /* Increased spacing */
+  background-color: #ffffff; /* Pure white for clean look */
+  border: 1px solid #d1d8e0; /* Softer border color */
+  border-radius: 10px; /* More rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* More subtle shadow */
+}
+
+#booking-system h2 {
+  color: #34495e; /* Another shade of professional blue */
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 25px; /* Increased spacing */
+  font-size: 2em; /* Adjusted size */
+  font-weight: 500;
+}
+
+#booking-system h3 {
+  color: #34495e;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px; /* Increased spacing */
+  font-size: 1.5em; /* Adjusted size */
+  font-weight: 500;
+}
+
+/* Time slots area */
+#time-slots-container {
+  margin-bottom: 25px; /* Increased spacing */
+  padding: 20px; /* Increased padding */
+  background-color: #f8f9fa; /* Very light grey */
+  border-radius: 8px; /* Consistent rounding */
+}
+
+#time-slots-container ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+}
+
+#time-slots-container li {
+  background-color: #007bff; /* Primary blue */
+  color: white;
+  padding: 12px 18px; /* Increased padding */
+  margin: 8px; /* Increased margin */
+  border-radius: 6px; /* Slightly less rounded than parent */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for all properties */
+  border: 1px solid transparent; /* For border transition if needed */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#time-slots-container li:hover {
+  background-color: #0056b3; /* Darker blue */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px); /* Subtle lift */
+}
+
+#time-slots-container li.booked {
+  background-color: #e0e0e0; /* Grey for booked */
+  color: #757575; /* Darker grey text */
+  text-decoration: line-through;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+#time-slots-container li.booked:hover {
+  background-color: #d5d5d5; /* Slightly darker grey on hover */
+}
+
+#time-slots-container .no-slots-message {
+  background-color: transparent;
+  color: #757575;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: default;
+  box-shadow: none;
+  text-align: center;
+  width: 100%;
+}
+#time-slots-container .no-slots-message:hover { /* No hover effect */
+    background-color: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+
+/* Booking form */
+#booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increased gap */
+  padding: 25px; /* Increased padding */
+  border: 1px solid #d1d8e0; /* Consistent soft border */
+  border-radius: 8px; /* Consistent rounding */
+  background-color: #f8f9fa; /* Consistent light background */
+}
+
+#booking-form label {
+  display: block;
+  margin-bottom: 8px; /* Increased spacing */
+  font-weight: 600; /* Bolder labels */
+  color: #495057; /* Softer black */
+}
+
+#booking-form input[type="text"],
+#booking-form input[type="email"],
+#booking-form select {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  border: 1px solid #ced4da; /* Standard bootstrap-like border */
+  border-radius: 6px; /* Consistent rounding */
+  box-sizing: border-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  font-size: 1em;
+}
+
+#booking-form input[type="text"]:focus,
+#booking-form input[type="email"]:focus,
+#booking-form select:focus {
+  border-color: #80bdff; /* Blue focus highlight */
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Bootstrap-like focus shadow */
+}
+
+#booking-form button[type="submit"] {
+  padding: 12px 25px; /* More padding */
+  font-size: 1.1em; /* Slightly larger font */
+  color: #fff;
+  background-color: #28a745; /* Green */
+  border: none;
+  border-radius: 6px; /* Consistent rounding */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  align-self: center;
+  font-weight: 500;
+}
+
+#booking-form button[type="submit"]:hover {
+  background-color: #218838; /* Darker green */
+  transform: translateY(-1px); /* Subtle lift */
+}
+
+#booking-form button[type="submit"]:active {
+  background-color: #1e7e34; /* Even darker green */
+  transform: translateY(0); /* Back to normal */
+}
+
+#booking-form button[type="submit"]:disabled {
+  background-color: #6c757d; /* Grey when disabled */
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Message container styles */
+#message-container {
+  padding: 12px 15px; /* Increased padding */
+  margin-top: 20px; /* Consistent spacing */
+  border-radius: 6px; /* Consistent rounding */
+  text-align: center;
+  font-weight: 500; /* Slightly less bold than 600 */
+  transition: opacity 0.5s ease-out;
+  min-height: 1.5em; /* Prevent layout shift when message appears/disappears */
+}
+
+.message-success {
+  background-color: #d1e7dd; /* Softer green */
+  color: #0f5132; /* Darker green text for contrast */
+  border: 1px solid #badbcc;
+}
+
+.message-error {
+  background-color: #f8d7da; /* Standard soft red */
+  color: #842029; /* Darker red text */
+  border: 1px solid #f5c2c7;
+}
+
+.message-info {
+  background-color: #cff4fc; /* Softer blue for info */
+  color: #055160; /* Darker blue text */
+  border: 1px solid #b6effb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) { /* Tablet and below */
+    header h1 {
+        font-size: 2em;
+    }
+    #booking-system h2 {
+        font-size: 1.75em;
+    }
+    #booking-system h3 {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 600px) {
+    /* .main-wrapper padding was already 20px, can reduce if needed for very small screens */
+    /* body padding is 0, .main-wrapper handles it */
+
+    #time-slots-container ul {
+        flex-direction: column;
+        align-items: stretch; /* Stretch items to fill width */
+    }
+
+    #time-slots-container li {
+        width: auto; /* Auto width, margin handles spacing */
+        margin-left: 0;
+        margin-right: 0;
+        text-align: center;
+    }
+
+    #booking-form button[type="submit"] {
+        width: 100%; /* Full width button on small screens */
+    }
+}
