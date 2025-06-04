@@ -424,7 +424,7 @@
 
     // Hardcoded credentials
     const ADMIN_USERNAME = "admin";
-    const ADMIN_PASSWORD = "password";
+    const ADMIN_PASSWORD = "admin";
 
     function showLoginError(message) {
         loginAlert.innerHTML = `<div class="alert alert-error">${message}</div>`;
@@ -489,7 +489,7 @@
 
             init() {
                 this.setupEventListeners();
-                this.setupDatePicker();
+                // this.setupDatePicker(); // Removed for admin panel
                 this.renderBookings();
                 this.updateStats();
             }
@@ -522,58 +522,14 @@
                         this.saveBookings();
                         this.renderBookings();
                         this.updateStats();
-                        this.generateTimeSlots();
+                        // this.generateTimeSlots(); // Removed for admin panel
                     }
                 });
             }
 
-            setupDatePicker() {
-                const today = new Date().toISOString().split('T')[0];
-                const maxDate = new Date();
-                maxDate.setMonth(maxDate.getMonth() + 3);
-
-                const dateInput = document.getElementById('appointment-date');
-                dateInput.min = today;
-                dateInput.max = maxDate.toISOString().split('T')[0];
-                dateInput.value = today;
-
-                this.generateTimeSlots();
-            }
-
-            generateTimeSlots() {
-                const selectedDate = document.getElementById('appointment-date').value;
-                if (!selectedDate) return;
-
-                const container = document.getElementById('time-slots');
-                container.innerHTML = '';
-
-                const startTime = 9; // 9 AM
-                const endTime = 17; // 5 PM
-                const slots = [];
-
-                for (let hour = startTime; hour < endTime; hour++) {
-                    for (let minute = 0; minute < 60; minute += 30) {
-                        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                        const displayTime = this.formatTime12Hour(time);
-
-                        const isBooked = this.isTimeSlotBooked(selectedDate, time);
-                        const isPast = this.isTimeSlotInPast(selectedDate, time);
-
-                        const slotElement = document.createElement('div');
-                        slotElement.className = 'time-slot';
-                        slotElement.textContent = displayTime;
-                        slotElement.dataset.time = time;
-
-                        if (isBooked || isPast) {
-                            slotElement.classList.add('booked');
-                        } else {
-                            slotElement.addEventListener('click', () => this.selectTimeSlot(slotElement));
-                        }
-
-                        container.appendChild(slotElement);
-                    }
-                }
-            }
+            // setupDatePicker() - REMOVED (admin panel does not use it directly)
+            // generateTimeSlots() - REMOVED (admin panel does not use it directly)
+            // selectTimeSlot(element) - REMOVED (related to generateTimeSlots)
 
             formatTime12Hour(time24) {
                 const [hours, minutes] = time24.split(':');
@@ -595,17 +551,7 @@
                 return slotDateTime < now;
             }
 
-            selectTimeSlot(element) {
-                // Remove previous selection
-                document.querySelectorAll('.time-slot.selected').forEach(slot => {
-                    slot.classList.remove('selected');
-                });
-
-                // Select new slot
-                element.classList.add('selected');
-                this.selectedTimeSlot = element.dataset.time;
-                // document.getElementById('selected-time').value = this.selectedTimeSlot; // User form specific
-            }
+            // selectTimeSlot(element) - REMOVED
 
             // handleBookingSubmission() - REMOVED (user specific)
             // isValidEmail(email) - REMOVED (user specific)
@@ -687,7 +633,7 @@
                     this.saveBookings();
                     this.renderBookings();
                     this.updateStats();
-                    this.generateTimeSlots();
+                    // this.generateTimeSlots(); // Removed
                 }
             }
 
