@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Booking System Packages</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .booking-panel, .admin-panel, .package-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .panel-header i {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            color: #667eea;
+        }
+
+        .panel-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .date-picker {
+            position: relative;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .time-slot {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-weight: 500;
+        }
+
+        .time-slot:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .time-slot.selected {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .time-slot.booked {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border-color: #dee2e6;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .time-slot.booked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border-left-color: #28a745;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #842029;
+            border-left-color: #dc3545;
+        }
+
+        .booking-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .booking-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .booking-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .booking-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        .booking-details h4 {
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .booking-details p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 2px 0;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .booking-panel, .admin-panel, .package-card {
+                padding: 20px;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-cubes"></i> Our Booking System Packages</h1>
+            <p>Find the perfect plan to streamline your scheduling needs.</p>
+            <div style="margin-top: 20px;">
+                 <a href="index.html" style="color: white; text-decoration: none; font-size: 1rem; opacity: 0.9; margin: 0 10px;">Home</a>
+            </div>
+        </div>
+
+        <!-- Package tiers will be added here in the next step -->
+        <div id="packages-section" class="main-content" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <!-- Basic Package -->
+            <div class="package-card">
+                <div class="panel-header" style="justify-content: center;">
+                    <i class="fas fa-award" style="font-size: 2rem; margin-right: 15px; color: #cd7f32;"></i>
+                    <h2 style="font-size: 1.8rem;">Basic</h2>
+                </div>
+                <p style="text-align: center; margin-bottom: 20px; color: #555;">Essential booking features to get you started.</p>
+                <ul style="list-style: none; padding-left: 0; margin-bottom: 25px; text-align: left;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Standard Appointment Booking</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Up to 50 Appointments/Month</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Basic Reporting Dashboard</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Email Support</li>
+                </ul>
+                <p style="text-align: center; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; color: #333;">$19/month</p>
+                <button class="btn btn-primary" style="width: 100%; background: #6c757d; border: none;"> <!-- Using a greyish color for Basic CTA -->
+                    <i class="fas fa-shopping-cart"></i> Get Started
+                </button>
+            </div>
+
+            <!-- Pro Package -->
+            <div class="package-card" style="border: 2px solid #667eea;"> <!-- Highlight Pro -->
+                <div class="panel-header" style="justify-content: center;">
+                    <i class="fas fa-medal" style="font-size: 2rem; margin-right: 15px; color: #c0c0c0;"></i>
+                    <h2 style="font-size: 1.8rem;">Pro</h2>
+                </div>
+                <p style="text-align: center; margin-bottom: 20px; color: #555;">Advanced features for growing businesses.</p>
+                <ul style="list-style: none; padding-left: 0; margin-bottom: 25px; text-align: left;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>All Basic Features</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Admin Panel Access</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Unlimited Appointments</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Customer Management Tools</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Basic Customization Options</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Priority Email Support</li>
+                </ul>
+                <p style="text-align: center; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; color: #333;">$49/month</p>
+                <button class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-rocket"></i> Choose Pro
+                </button>
+            </div>
+
+            <!-- Enterprise Package -->
+            <div class="package-card">
+                <div class="panel-header" style="justify-content: center;">
+                    <i class="fas fa-trophy" style="font-size: 2rem; margin-right: 15px; color: #ffd700;"></i>
+                    <h2 style="font-size: 1.8rem;">Enterprise</h2>
+                </div>
+                <p style="text-align: center; margin-bottom: 20px; color: #555;">Comprehensive solutions for large-scale operations.</p>
+                <ul style="list-style: none; padding-left: 0; margin-bottom: 25px; text-align: left;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>All Pro Features</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Employee-Specific Booking & Management</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Email, SMS & Push Notifications (Employee & Client)</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Automated Waitlist & Early Slot Notifications</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Advanced Analytics & Reporting</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Integrations (e.g., Calendar, CRM - described)</li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Dedicated Account Manager & Phone Support</li>
+                </ul>
+                <p style="text-align: center; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; color: #333;">Contact Us</p>
+                <button class="btn btn-primary" style="width: 100%; background: #28a745; border:none;"> <!-- Using a greenish color for Enterprise CTA -->
+                    <i class="fas fa-phone-alt"></i> Request Quote
+                </button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
