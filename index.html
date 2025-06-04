@@ -1,54 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment Booking</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Professional Appointment Booking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Styles moved to css/style.css */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .booking-panel, .admin-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .panel-header i {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            color: #667eea;
+        }
+
+        .panel-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .date-picker {
+            position: relative;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .time-slot {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-weight: 500;
+        }
+
+        .time-slot:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .time-slot.selected {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .time-slot.booked {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border-color: #dee2e6;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .time-slot.booked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border-left-color: #28a745;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #842029;
+            border-left-color: #dc3545;
+        }
+
+        .booking-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .booking-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .booking-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .booking-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        .booking-details h4 {
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .booking-details p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 2px 0;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .booking-panel, .admin-panel {
+                padding: 20px;
+            }
+            
+            .time-slots {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="main-wrapper">
-        <header>
-            <h1>Appointment Booking</h1>
-        </header>
-        <main>
-            <section id="booking-system">
-                <h2>Book Your Appointment</h2>
-            <div id="time-slots-container">
-                <h3>Available Time Slots</h3>
-                <ul>
-                    <!-- Time slots will be populated by JavaScript -->
-                </ul>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-calendar-check"></i> Professional Booking System</h1>
+            <p>Schedule your appointments with ease and manage bookings efficiently</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Booking Panel -->
+            <div class="booking-panel">
+                <div class="panel-header">
+                    <i class="fas fa-plus-circle"></i>
+                    <h2>Book Appointment</h2>
+                </div>
+
+                <div id="booking-alert"></div>
+
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label for="client-name">
+                            <i class="fas fa-user"></i> Full Name
+                        </label>
+                        <input type="text" id="client-name" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="client-email">
+                            <i class="fas fa-envelope"></i> Email Address
+                        </label>
+                        <input type="email" id="client-email" class="form-control" placeholder="Enter your email address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="client-phone">
+                            <i class="fas fa-phone"></i> Phone Number
+                        </label>
+                        <input type="tel" id="client-phone" class="form-control" placeholder="Enter your phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appointment-date">
+                            <i class="fas fa-calendar"></i> Select Date
+                        </label>
+                        <input type="date" id="appointment-date" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-clock"></i> Available Time Slots
+                        </label>
+                        <div id="time-slots" class="time-slots">
+                            <!-- Time slots will be populated dynamically -->
+                        </div>
+                        <input type="hidden" id="selected-time" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appointment-notes">
+                            <i class="fas fa-sticky-note"></i> Additional Notes (Optional)
+                        </label>
+                        <textarea id="appointment-notes" class="form-control" rows="3" placeholder="Any special requirements or notes..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-check"></i> Book Appointment
+                    </button>
+                </form>
             </div>
-            <form id="booking-form">
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+
+            <!-- Admin Panel -->
+            <div class="admin-panel">
+                <div class="panel-header">
+                    <i class="fas fa-cog"></i>
+                    <h2>Booking Management</h2>
                 </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div id="total-bookings" class="stat-number">0</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="today-bookings" class="stat-number">0</div>
+                        <div class="stat-label">Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="upcoming-bookings" class="stat-number">0</div>
+                        <div class="stat-label">Upcoming</div>
+                    </div>
                 </div>
-                <div>
-                    <label for="time-slot-select">Choose a time slot:</label>
-                    <select id="time-slot-select" name="time-slot-select">
-                        <!-- Options will be populated by JavaScript -->
-                    </select>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="filter-date">Filter by Date</label>
+                        <input type="date" id="filter-date" class="form-control">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-search">Search</label>
+                        <input type="text" id="filter-search" class="form-control" placeholder="Name or email...">
+                    </div>
                 </div>
-                <button type="submit">Book Now</button>
-            </form>
-            <div id="message-container" aria-live="polite"></div>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2024 Appointment Booking</p>
-        </footer>
-    </div> <!-- Close main-wrapper -->
-    <!-- Basic JavaScript for view switching might be added later -->
-    <!-- <script src="app.js"></script> -->
-    <script src="js/script.js" defer></script>
+
+                <div style="margin-bottom: 15px;">
+                    <button id="refresh-bookings" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                    <button id="clear-all" class="btn btn-danger btn-sm" style="float: right;">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+
+                <div id="booking-list" class="booking-list">
+                    <!-- Bookings will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class BookingSystem {
+            constructor() {
+                this.bookings = this.loadBookings();
+                this.selectedTimeSlot = null;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.setupDatePicker();
+                this.renderBookings();
+                this.updateStats();
+            }
+
+            setupEventListeners() {
+                // Form submission
+                document.getElementById('booking-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleBookingSubmission();
+                });
+
+                // Date change
+                document.getElementById('appointment-date').addEventListener('change', () => {
+                    this.generateTimeSlots();
+                });
+
+                // Filter events
+                document.getElementById('filter-date').addEventListener('change', () => this.renderBookings());
+                document.getElementById('filter-search').addEventListener('input', () => this.renderBookings());
+                
+                // Admin actions
+                document.getElementById('refresh-bookings').addEventListener('click', () => {
+                    this.renderBookings();
+                    this.updateStats();
+                });
+                
+                document.getElementById('clear-all').addEventListener('click', () => {
+                    if (confirm('Are you sure you want to delete all bookings?')) {
+                        this.bookings = [];
+                        this.saveBookings();
+                        this.renderBookings();
+                        this.updateStats();
+                        this.generateTimeSlots();
+                    }
+                });
+            }
+
+            setupDatePicker() {
+                const today = new Date().toISOString().split('T')[0];
+                const maxDate = new Date();
+                maxDate.setMonth(maxDate.getMonth() + 3);
+                
+                const dateInput = document.getElementById('appointment-date');
+                dateInput.min = today;
+                dateInput.max = maxDate.toISOString().split('T')[0];
+                dateInput.value = today;
+                
+                this.generateTimeSlots();
+            }
+
+            generateTimeSlots() {
+                const selectedDate = document.getElementById('appointment-date').value;
+                if (!selectedDate) return;
+
+                const container = document.getElementById('time-slots');
+                container.innerHTML = '';
+                
+                const startTime = 9; // 9 AM
+                const endTime = 17; // 5 PM
+                const slots = [];
+
+                for (let hour = startTime; hour < endTime; hour++) {
+                    for (let minute = 0; minute < 60; minute += 30) {
+                        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                        const displayTime = this.formatTime12Hour(time);
+                        
+                        const isBooked = this.isTimeSlotBooked(selectedDate, time);
+                        const isPast = this.isTimeSlotInPast(selectedDate, time);
+                        
+                        const slotElement = document.createElement('div');
+                        slotElement.className = 'time-slot';
+                        slotElement.textContent = displayTime;
+                        slotElement.dataset.time = time;
+                        
+                        if (isBooked || isPast) {
+                            slotElement.classList.add('booked');
+                        } else {
+                            slotElement.addEventListener('click', () => this.selectTimeSlot(slotElement));
+                        }
+                        
+                        container.appendChild(slotElement);
+                    }
+                }
+            }
+
+            formatTime12Hour(time24) {
+                const [hours, minutes] = time24.split(':');
+                const hour = parseInt(hours);
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+                const displayHour = hour % 12 || 12;
+                return `${displayHour}:${minutes} ${ampm}`;
+            }
+
+            isTimeSlotBooked(date, time) {
+                return this.bookings.some(booking => 
+                    booking.date === date && booking.time === time
+                );
+            }
+
+            isTimeSlotInPast(date, time) {
+                const now = new Date();
+                const slotDateTime = new Date(`${date}T${time}`);
+                return slotDateTime < now;
+            }
+
+            selectTimeSlot(element) {
+                // Remove previous selection
+                document.querySelectorAll('.time-slot.selected').forEach(slot => {
+                    slot.classList.remove('selected');
+                });
+                
+                // Select new slot
+                element.classList.add('selected');
+                this.selectedTimeSlot = element.dataset.time;
+                document.getElementById('selected-time').value = this.selectedTimeSlot;
+            }
+
+            handleBookingSubmission() {
+                const formData = {
+                    id: Date.now(),
+                    name: document.getElementById('client-name').value.trim(),
+                    email: document.getElementById('client-email').value.trim(),
+                    phone: document.getElementById('client-phone').value.trim(),
+                    date: document.getElementById('appointment-date').value,
+                    time: this.selectedTimeSlot,
+                    notes: document.getElementById('appointment-notes').value.trim(),
+                    createdAt: new Date().toISOString()
+                };
+
+                // Validation
+                if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.time) {
+                    this.showAlert('Please fill in all required fields and select a time slot.', 'error');
+                    return;
+                }
+
+                if (!this.isValidEmail(formData.email)) {
+                    this.showAlert('Please enter a valid email address.', 'error');
+                    return;
+                }
+
+                // Check if slot is still available
+                if (this.isTimeSlotBooked(formData.date, formData.time)) {
+                    this.showAlert('This time slot is no longer available. Please select another time.', 'error');
+                    this.generateTimeSlots();
+                    return;
+                }
+
+                // Save booking
+                this.bookings.push(formData);
+                this.saveBookings();
+                
+                // Success feedback
+                this.showAlert(`Booking confirmed for ${formData.name} on ${this.formatDate(formData.date)} at ${this.formatTime12Hour(formData.time)}!`, 'success');
+                
+                // Reset form
+                document.getElementById('booking-form').reset();
+                this.selectedTimeSlot = null;
+                document.getElementById('selected-time').value = '';
+                
+                // Refresh UI
+                this.setupDatePicker();
+                this.renderBookings();
+                this.updateStats();
+            }
+
+            isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            showAlert(message, type) {
+                const alertContainer = document.getElementById('booking-alert');
+                alertContainer.innerHTML = `
+                    <div class="alert alert-${type === 'error' ? 'error' : 'success'}">
+                        <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+                        ${message}
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    alertContainer.innerHTML = '';
+                }, 5000);
+            }
+
+            renderBookings() {
+                const container = document.getElementById('booking-list');
+                const filterDate = document.getElementById('filter-date').value;
+                const filterSearch = document.getElementById('filter-search').value.toLowerCase();
+                
+                let filteredBookings = this.bookings;
+                
+                if (filterDate) {
+                    filteredBookings = filteredBookings.filter(booking => booking.date === filterDate);
+                }
+                
+                if (filterSearch) {
+                    filteredBookings = filteredBookings.filter(booking => 
+                        booking.name.toLowerCase().includes(filterSearch) ||
+                        booking.email.toLowerCase().includes(filterSearch)
+                    );
+                }
+                
+                // Sort by date and time
+                filteredBookings.sort((a, b) => {
+                    const dateTimeA = new Date(`${a.date}T${a.time}`);
+                    const dateTimeB = new Date(`${b.date}T${b.time}`);
+                    return dateTimeB - dateTimeA;
+                });
+
+                if (filteredBookings.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No bookings found.</p>';
+                    return;
+                }
+
+                container.innerHTML = filteredBookings.map(booking => `
+                    <div class="booking-item">
+                        <div class="booking-info">
+                            <div class="booking-details">
+                                <h4><i class="fas fa-user"></i> ${booking.name}</h4>
+                                <p><i class="fas fa-envelope"></i> ${booking.email}</p>
+                                <p><i class="fas fa-phone"></i> ${booking.phone}</p>
+                                <p><i class="fas fa-calendar"></i> ${this.formatDate(booking.date)} at ${this.formatTime12Hour(booking.time)}</p>
+                                ${booking.notes ? `<p><i class="fas fa-sticky-note"></i> ${booking.notes}</p>` : ''}
+                            </div>
+                            <div class="booking-actions">
+                                <button class="btn btn-danger btn-sm" onclick="bookingSystem.deleteBooking(${booking.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            deleteBooking(id) {
+                if (confirm('Are you sure you want to delete this booking?')) {
+                    this.bookings = this.bookings.filter(booking => booking.id !== id);
+                    this.saveBookings();
+                    this.renderBookings();
+                    this.updateStats();
+                    this.generateTimeSlots();
+                }
+            }
+
+            updateStats() {
+                const total = this.bookings.length;
+                const today = new Date().toISOString().split('T')[0];
+                const todayCount = this.bookings.filter(booking => booking.date === today).length;
+                const upcomingCount = this.bookings.filter(booking => {
+                    const bookingDate = new Date(booking.date);
+                    const now = new Date();
+                    now.setHours(0, 0, 0, 0);
+                    return bookingDate >= now;
+                }).length;
+
+                document.getElementById('total-bookings').textContent = total;
+                document.getElementById('today-bookings').textContent = todayCount;
+                document.getElementById('upcoming-bookings').textContent = upcomingCount;
+            }
+
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            loadBookings() {
+                try {
+                    const stored = localStorage.getItem('professional-bookings');
+                    return stored ? JSON.parse(stored) : [];
+                } catch (e) {
+                    console.error('Error loading bookings:', e);
+                    return [];
+                }
+            }
+
+            saveBookings() {
+                try {
+                    localStorage.setItem('professional-bookings', JSON.stringify(this.bookings));
+                } catch (e) {
+                    console.error('Error saving bookings:', e);
+                }
+            }
+        }
+
+        // Initialize the booking system
+        const bookingSystem = new BookingSystem();
+    </script>
 </body>
 </html>
